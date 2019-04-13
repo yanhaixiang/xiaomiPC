@@ -1,0 +1,75 @@
+﻿@model IEnumerable<PC.Models.Order>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Freight)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderState)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TurePrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PaymentTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShipmentTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HarvestTime)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrderNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Freight)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrderState)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TurePrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PaymentTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShipmentTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HarvestTime)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.OrderId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.OrderId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.OrderId })
+        </td>
+    </tr>
+}
+
+</table>
