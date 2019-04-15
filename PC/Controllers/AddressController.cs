@@ -62,6 +62,8 @@ namespace PC.Controllers
         [HttpPost]
         public string Create(Address address)
         {
+            //address.UserId = int.Parse(Session["UserId"].ToString());
+            address.UserId = 1;
             string str = JsonConvert.SerializeObject(address);
             //使用HttpClientHelper获取所有数据
             string jsonStr = HttpClientHelper.Send("post", "api/AddressAPI/Create", str);
