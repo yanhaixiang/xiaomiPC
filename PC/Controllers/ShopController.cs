@@ -60,9 +60,9 @@ namespace PC.Controllers
             return View();
         }
         [HttpPost]
-        public string Create(User user)
+        public string Create(Shop shop)
         {
-            string str = JsonConvert.SerializeObject(user);
+            string str = JsonConvert.SerializeObject(shop);
             //使用HttpClientHelper获取所有数据
             string jsonStr = HttpClientHelper.Send("post", "api/ShopAPI/Create", str);
             if (jsonStr != "未知原因，失败")

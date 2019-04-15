@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<PC.Models.Shop>
 
 @{
+    Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Index";
 }
 
@@ -38,38 +39,39 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ShopType)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ShopName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ShopTitle)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ShopPicture)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ShopDatails)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ShopPirce)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ShopSum)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ShopState)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ShopId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ShopId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ShopId })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShopType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShopName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShopTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShopPicture)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShopDatails)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShopPirce)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShopSum)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShopState)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ShopId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ShopId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ShopId })
+            </td>
+        </tr>
+    }
 
 </table>

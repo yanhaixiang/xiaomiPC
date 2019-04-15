@@ -1,0 +1,130 @@
+﻿<!doctype html>
+@{
+    Layout = null;
+}
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录</title>
+    <script src="~/Content/js/jquery-2.1.1.min.js"></script>
+    <link href="~/Content/css/styles.css" rel="stylesheet" />
+    <link href="~/Content/layui.css" rel="stylesheet" />
+    <script src="~/Content/layui.js"></script>
+</head>
+<body>
+    <div class="htmleaf-container" style="margin-top:-25%">
+        <div class="wrapper">
+            <div class="container" style="margin-top:10%;">
+                <h1>Welcome</h1>
+                <form method="post" action="/User/Login">
+                    <input type="text" name="UserName" placeholder="请输入用户名">
+                    <input type="password" name="UserPwd" placeholder="请输入密码">
+                    <button type="submit" id="login-button" style="width:300px;">登录</button>
+                    <br />
+                    <br />
+                    <a class="a" href="/Login/Register">注册请点这里哦</a>
+                    <a class="a" href="#" onclick="fun1()">人脸识别</a>
+                </form>
+
+            </div>
+
+
+            <ul class="bg-bubbles">
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
+    </div>
+    <script>
+        $('#login-button').click(function () {
+
+            $('form').fadeOut(1);
+            $('.wrapper').addClass('form-success');
+        });
+        //function fun1() {
+        //    layui.use('layer', function () { //独立版的layer无需执行这一句
+        //        var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
+        //        layer.open({
+        //            type: 2,
+        //            title:'人脸认证',
+        //            area: ['500px', '500px'],
+        //            skin: 'layui-layer-rim', //加上边框
+        //            content: ['/Face/Index', 'no']
+        //        });
+        //    });
+        //}
+        function fun1() {
+            layui.use('layer', function () { //独立版的layer无需执行这一句
+                var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
+                layer.open({
+                    type: 1,
+                    skin: 'layui-layer-rim', //加上边框
+                    title: false,
+                    //time: 10000,
+                    area: ['510px', '510px'], //宽高
+                    content: '<input type="button" class="layui-btn layui-btn-radius layui-btn-normal" id="btn1" title="开启摄像头" value="开启摄像头" onclick="getMedia()" /><video id="video" width="500px" height="500px" autoplay="autoplay"></video><canvas id="canvas" width="500px" height="500px" hidden></canvas>'
+                        });
+            });
+            //getMedia();
+        }
+
+        function getMedia() {
+            $("#btn1").toggle();
+            let constraints = {
+                video: { width: 500, height: 500 },
+                audio: true
+            };
+            //获得video摄像头区域
+            let video = document.getElementById("video");
+            // 避免数据没有获取到
+            let promise = navigator.mediaDevices.getUserMedia(constraints);
+            promise.then(function (MediaStream) {
+                video.srcObject = MediaStream;
+                video.play();
+
+            });
+            //两秒后自动拍照
+            setTimeout("takePhoto()", 2000)
+        }
+
+        function takePhoto() {
+            //获得Canvas对象
+            let video = document.getElementById("video");
+            let canvas = document.getElementById("canvas");
+            let ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0, 500, 500);
+            //把canvas图像转为img图片
+            var s = canvas.toDataURL("image/png");
+            $.ajax({
+                url: '/Face/BaiDu',
+                data: { strbase64: s },
+                type: 'post',
+                success: function (i) {
+                    if (i > 0) {
+                        location.href = '/Company/Index';
+                    } else {
+                        layui.use('layer', function () { //独立版的layer无需执行这一句
+                            var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
+                            layer.msg('认证失败哦', { icon: 4,time:2000 });
+                        })
+                        location.href = '/Login/Index';
+                    }
+                }
+            })
+        }
+
+    </script>
+
+
+</body>
+</html>
