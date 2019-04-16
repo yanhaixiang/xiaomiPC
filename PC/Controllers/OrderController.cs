@@ -18,7 +18,7 @@ namespace PC.Controllers
         /// <returns></returns>
         public ActionResult Index()
         {
-            return View(GetOrders());
+            return View();
 
         }
 
