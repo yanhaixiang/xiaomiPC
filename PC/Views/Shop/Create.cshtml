@@ -1,0 +1,67 @@
+﻿@model IEnumerable<PC.Models.Shop>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Create</title>
+    <script src="~/Content/layui.js"></script>
+    <link href="~/Content/layui.css" rel="stylesheet" />
+    <script src="~/Content/layui/lay/modules/form.js"></script>
+</head>
+<body>
+    <form action="/Shop/Create" method="post" enctype="multipart/form-data" >
+        <div>
+            <table>
+                <tr>
+                    <td><label class="layui-form-label" style="width:100px;">商品类型</label></td>
+                    <td><input type="text" class="layui-input" name="ShopType" placeholder="请输入商品类型" value="" /></td>
+                </tr>
+                <tr>
+                    <td><label class="layui-form-label" style="width:100px;">商品名称</label></td>
+                    <td><input type="text" class="layui-input" name="ShopName" placeholder="请输入商品名称" value="" /></td>
+                </tr>
+                <tr>
+                    <td><label class="layui-form-label" style="width:100px;">商品标题</label></td>
+                    <td><input type="text" class="layui-input" name="ShopTitle" placeholder="请输入商品标题" value="" /></td>
+                </tr>
+                <tr>
+                    <td><label class="layui-form-label" style="width:100px;">商品图片</label></td>
+                    <td>
+                        <div class="layui-input-block">
+                            <input id="File1" type="file" name="http" />
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label class="layui-form-label" style="width:100px;">商品详情</label></td>
+                    <td><input type="text" class="layui-textarea" placeholder="请输入商品详情" style="width:500px;height:100px;" name="ShopDatails" value="" /></td>
+                </tr>
+                <tr>
+                    <td><label class="layui-form-label" style="width:100px;">商品价格</label></td>
+                    <td>
+                        <input name="ShopPrice" style="width:200px;" class="layui-input" type="text" placeholder="￥" autocomplete="off">
+                    </td>
+                </tr>
+                <tr>
+                    <td><label class="layui-form-label" style="width:100px;">商品数量</label></td>
+                    <td><input type="text" style="width:200px;" class="layui-input" name="ShopSum" placeholder="请输入商品数量" value="" /></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="submit" name="name" value="发布" class="layui-btn" /></td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</body>
+</html>
+<script>
+    layui.use(['form', 'layedit'], function () {
+        var $ = layui.jquery
+            , upload = layui.upload;
+</script>
