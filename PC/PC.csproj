@@ -187,6 +187,7 @@
     <Content Include="Content\js\jquery-2.1.1.min.js" />
     <Content Include="Content\layui.css" />
     <Content Include="Content\layui.js" />
+    <Content Include="Scripts\vue.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
