@@ -2,74 +2,132 @@
 
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    //Layout = null;
 }
+<script src="~/Scripts/vue.js"></script>
+<script src="~/Content/layui.js"></script>
+<link href="~/Content/layui.css" rel="stylesheet" />
+@*<table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Freight)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderState)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TurePrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PaymentTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShipmentTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HarvestTime)
+            </th>
+            <th></th>
+        </tr>
 
-<h2>Index</h2>
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Freight)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderState)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TurePrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PaymentTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShipmentTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HarvestTime)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.OrderId }) |
+                @Html.ActionLink("Details", "Details", new { id=item.OrderId }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.OrderId })
+            </td>
+        </tr>
+    }
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.OrderNumber)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UserId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Freight)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OrderState)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TurePrice)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PaymentTime)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ShipmentTime)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.HarvestTime)
-        </th>
-        <th></th>
-    </tr>
+    </table>*@
+<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+    <ul class="layui-tab-title">
+        <li class="layui-this">网站设置</li>
+        <li>用户管理</li>
+        <li>权限分配</li>
+        <li>商品管理</li>
+        <li>订单管理</li>
+    </ul>
+    <div class="layui-tab-content" style="height: 100px;">
+        <div class="layui-tab-item layui-show">内容不一样是要有，因为你可以监听tab事件（阅读下文档就是了）</div>
+        <div class="layui-tab-item">内容2</div>
+        <div class="layui-tab-item">内容3</div>
+        <div class="layui-tab-item">内容4</div>
+        <div class="layui-tab-item">内容5</div>
+    </div>
+</div>
+<script>
+    layui.use('element', function () {
+        var $ = layui.jquery
+            , element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.OrderNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Freight)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OrderState)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TurePrice)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PaymentTime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ShipmentTime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.HarvestTime)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.OrderId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.OrderId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.OrderId })
-        </td>
-    </tr>
-}
+        //触发事件
+        var active = {
+            tabAdd: function () {
+                //新增一个Tab项
+                element.tabAdd('demo', {
+                    title: '新选项' + (Math.random() * 1000 | 0) //用于演示
+                    , content: '内容' + (Math.random() * 1000 | 0)
+                    , id: new Date().getTime() //实际使用一般是规定好的id，这里以时间戳模拟下
+                })
+            }
+            , tabDelete: function (othis) {
+                //删除指定Tab项
+                element.tabDelete('demo', '44'); //删除：“商品管理”
 
-</table>
+
+                othis.addClass('layui-btn-disabled');
+            }
+            , tabChange: function () {
+                //切换到指定Tab项
+                element.tabChange('demo', '22'); //切换到：用户管理
+            }
+        };
+
+        $('.site-demo-active').on('click', function () {
+            var othis = $(this), type = othis.data('type');
+            active[type] ? active[type].call(this, othis) : '';
+        });
+
+        //Hash地址的定位
+        var layid = location.hash.replace(/^#test=/, '');
+        element.tabChange('test', layid);
+
+        element.on('tab(test)', function (elem) {
+            location.hash = 'test=' + $(this).attr('lay-id');
+        });
+
+    });
+</script>
