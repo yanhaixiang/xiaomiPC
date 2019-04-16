@@ -14,7 +14,7 @@ namespace PC.Models
         public string ShopTitle { get; set; }
         public string ShopPicture { get; set; }
         public string ShopDatails { get; set; }
-        public float ShopPirce { get; set; }
+        public float ShopPrice { get; set; }
         public int ShopSum { get; set; }
         public int ShopState { get; set; }
     }

@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Data;
+using System.Text;
+using System.IO;
 
 namespace PC.Controllers
 {
@@ -60,8 +63,17 @@ namespace PC.Controllers
             return View();
         }
         [HttpPost]
-        public string Create(Shop shop)
+        public string Create(Shop shop,HttpPostedFileBase http)
         {
+            if(http!=null)
+            {
+                string path = Server.MapPath("/images/");
+                string fileName = http.FileName;
+                string pathImg=Path.Combine(path,fileName);
+                http.SaveAs(pathImg);
+                shop.ShopPicture = "http://localhost:52868/images/" + fileName;
+            }
+            shop.ShopState = 1;
             string str = JsonConvert.SerializeObject(shop);
             //使用HttpClientHelper获取所有数据
             string jsonStr = HttpClientHelper.Send("post", "api/ShopAPI/Create", str);
@@ -86,5 +98,6 @@ namespace PC.Controllers
             //将json数据转化为list集合 并返回
             return JsonConvert.DeserializeObject<List<Shop>>(jsonStr); ;
         }
+        
     }
 }
