@@ -18,9 +18,13 @@ namespace PC.Controllers
         /// 显示页面
         /// </summary>
         /// <returns></returns>
-        public ActionResult Index()
+        public ActionResult Index(int pageindex = 1)
         {
-            return View(GetShops());
+            List<Shop> list = GetShops();
+            list = list.Skip((pageindex - 1) * 3).Take(3).ToList();
+            ViewBag.index = pageindex;
+            ViewBag.count = Math.Ceiling(list.Count() * 1.0 / 3.0) + 1;
+            return View(list);
         }
 
         /// <summary>
@@ -63,13 +67,13 @@ namespace PC.Controllers
             return View();
         }
         [HttpPost]
-        public string Create(Shop shop,HttpPostedFileBase http)
+        public string Create(Shop shop, HttpPostedFileBase http)
         {
-            if(http!=null)
+            if (http != null)
             {
                 string path = Server.MapPath("/images/");
                 string fileName = http.FileName;
-                string pathImg=Path.Combine(path,fileName);
+                string pathImg = Path.Combine(path, fileName);
                 http.SaveAs(pathImg);
                 shop.ShopPicture = "http://localhost:52868/images/" + fileName;
             }
@@ -98,6 +102,6 @@ namespace PC.Controllers
             //将json数据转化为list集合 并返回
             return JsonConvert.DeserializeObject<List<Shop>>(jsonStr); ;
         }
-        
+
     }
 }
