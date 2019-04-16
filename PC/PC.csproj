@@ -184,6 +184,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css\styles.css" />
+    <Content Include="Content\element-ui.css" />
     <Content Include="Content\js\jquery-2.1.1.min.js" />
     <Content Include="Content\layui.css" />
     <Content Include="Content\layui.js" />
@@ -343,6 +344,7 @@
     <Content Include="js\jquery-1.11.2.min.js" />
     <Content Include="js\jquery-migrate-1.2.1.min.js" />
     <Content Include="js\templatemo-script.js" />
+    <Content Include="Scripts\axios.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
