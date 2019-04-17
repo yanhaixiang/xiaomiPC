@@ -1,4 +1,5 @@
-﻿@model IEnumerable<PC.Models.Shop>
+﻿@using PC.Controllers
+@model IEnumerable<PC.Models.Shop>
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -18,7 +19,7 @@
         <div style="margin-left:5%;float:left;">
             <table class="layui-table" style="width:300px;">
                 <tr>
-                    <td colspan="2"><img src="@item.ShopPicture" style="margin-left:30%"  alt="Alternate Text" /></td>
+                    <td colspan="2"><img src="@item.ShopPicture" style="margin-left:30%" alt="Alternate Text" /></td>
                 </tr>
                 <tr>
                     <td>商品名称</td>
@@ -38,11 +39,29 @@
                 </tr>
                 <tr>
                     <td>商品状态</td>
-                    <td>@item.ShopState</td>
+                    <td>
+                        @{ State state = (State)item.ShopState;}
+                        @if (State.上架 == state)
+                        {
+                            <p>正在销售中</p>
+                        }
+                        else if (State.下架 == state)
+                        {
+                            <p style="color:red;">已下架</p>
+                        }
+                        else
+                        {
+                            <p style="color:blue">商品已售完</p>
+                        }
+                    </td>
                 </tr>
                 <tr>
                     <td>商品数量</td>
                     <td>@item.ShopSum</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="button" name="name" value="查看选购人员" onclick="location.href='Order/Index?id='+@item.ShopId" /></td>
                 </tr>
             </table>
         </div>
