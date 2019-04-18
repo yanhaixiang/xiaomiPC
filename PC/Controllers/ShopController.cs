@@ -104,4 +104,10 @@ namespace PC.Controllers
         }
 
     }
+    public enum State
+    {
+        上架 = 1,
+        已售空 = 2,
+        下架 = 3
+    }
 }
