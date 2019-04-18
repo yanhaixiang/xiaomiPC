@@ -28,10 +28,10 @@ namespace PC.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult Edit(int id)
+        public string Edit(int id)
         {
             var s = GetOrders().Where(m => m.OrderId == id).SingleOrDefault();
-            return View(s);
+            return JsonConvert.SerializeObject(s);
         }
 
 
@@ -54,6 +54,18 @@ namespace PC.Controllers
             {
                 return "失败";
             }
+        }
+
+        /// <summary>
+        /// 修改发货
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public string Upt(int id)
+        {
+            var s = GetOrders().Where(m => m.OrderId == id).SingleOrDefault();
+            s.OrderState = 1;
+            return Edit(s);
         }
 
         [HttpGet]
