@@ -165,10 +165,12 @@
     <Compile Include="Controllers\ShopController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="DataTransfer.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="HttpClientHelper.cs" />
+    <Compile Include="HttpClientHelper2.cs" />
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\Shop.cs" />

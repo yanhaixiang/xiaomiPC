@@ -95,8 +95,13 @@ namespace PC.Controllers
         /// <returns></returns>
         public List<Order> GetOrders()
         {
+            var nonce = DataTransfer.GetNonce();
+            var timestamp = DataTransfer.GetTimeStamp();
+            var staffid = "#9793932i82`/";
+
             //使用HttpClientHelper获取所有数据
-            string jsonStr = HttpClientHelper.Send("get", "api/OrderAPI/GetOrders", null);
+            string jsonStr = HttpClientHelper2.SendRequest("api/OrderAPI/GetOrders", "get", timestamp, nonce.ToString(), staffid, "");
+            //string jsonStr = HttpClientHelper.Send("get", "api/OrderAPI/GetOrders", null);
             //将json数据转化为list集合 并返回
             return JsonConvert.DeserializeObject<List<Order>>(jsonStr); ;
         }
