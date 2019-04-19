@@ -245,7 +245,7 @@
                 self.sites = res.data;
                 console.log(self.sites);
                 for (var o in self.sites) {
-                    if (self.sites[o].HarvestTime == "") {
+                    if (self.sites[o].HarvestTime == "" || self.sites[o].HarvestTime == null) {
                         self.sites[o].HarvestTime = "";
                         self.sites[o].OrderState = self.sites[o].OrderState == 0 ? "待发货" : "已发货";
                     } else {
@@ -279,7 +279,7 @@
                         self.sites = res.data;
                         console.log(self.sites);
                         for (var o in self.sites) {
-                            if (self.sites[o].HarvestTime == "") {
+                            if (self.sites[o].HarvestTime == "" || self.sites[o].HarvestTime == null) {
                                 self.sites[o].HarvestTime = "";
                                 self.sites[o].OrderState = self.sites[o].OrderState == 0 ? "待发货" : "已发货";
                             } else {
@@ -300,7 +300,7 @@
                         self.sites = res.data;
                         console.log(self.sites);
                         for (var o in self.sites) {
-                            if (self.sites[o].HarvestTime == "") {
+                            if (self.sites[o].HarvestTime == "" || self.sites[o].HarvestTime == null) {
                                 self.sites[o].HarvestTime = "";
                                 self.sites[o].OrderState = self.sites[o].OrderState == 0 ? "待发货" : "已发货";
                             } else {
@@ -325,7 +325,7 @@
                         self.sites = res.data;
                         console.log(self.sites);
                         for (var o in self.sites) {
-                            if (self.sites[o].HarvestTime == "") {
+                            if (self.sites[o].HarvestTime == "" || self.sites[o].HarvestTime == null) {
                                 self.sites[o].HarvestTime = "";
                                 self.sites[o].OrderState = self.sites[o].OrderState == 0 ? "待发货" : "已发货";
                             } else {
