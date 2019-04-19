@@ -1,0 +1,77 @@
+﻿
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+<link href="~/Content/element-ui.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="~/Scripts/element-ui.js"></script>
+<script src="~/Scripts/axios.js"></script>
+<link href="~/Content/layui.css" rel="stylesheet" />
+<script src="~/Content/layui.js"></script>
+<script src="~/Content/layui/lay/modules/form.js"></script>
+
+<form action="/Shop/Create" method="post" enctype="multipart/form-data">
+    <div>
+        <table>
+            <tr>
+                <td><label class="layui-form-label" style="width:100px;">商品类型</label></td>
+                <td><input type="text" class="layui-input" name="ShopType" placeholder="请输入商品类型" value="" /></td>
+            </tr>
+            <tr>
+                <td><label class="layui-form-label" style="width:100px;">商品名称</label></td>
+                <td><input type="text" class="layui-input" name="ShopName" placeholder="请输入商品名称" value="" /></td>
+            </tr>
+            <tr>
+                <td><label class="layui-form-label" style="width:100px;">商品标题</label></td>
+                <td><input type="text" class="layui-input" name="ShopTitle" placeholder="请输入商品标题" value="" /></td>
+            </tr>
+            <tr>
+                <td><label class="layui-form-label" style="width:100px;">商品图片</label></td>
+                <td>
+                    <input type="file" name="http" />
+                    @*<div id="app">
+                        <el-upload action="https://jsonplaceholder.typicode.com/posts/"
+                                   list-type="picture-card"
+                                   :on-preview="handlePictureCardPreview"
+                                   :on-remove="handleRemove">
+                            <i class="el-icon-plus"></i>
+                        </el-upload>
+                        <el-dialog :visible.sync="dialogVisible">
+                            <img style="width:100%" src="dialogImageUrl" alt="">
+                        </el-dialog>
+                    </div>
+                    <script>
+                        var vm = new Vue({
+                            el: '#app'
+                        })
+                    </script>*@
+                </td>
+            </tr>
+            <tr>
+                <td><label class="layui-form-label" style="width:100px;">商品详情</label></td>
+                <td><input type="text" class="layui-textarea" placeholder="请输入商品详情" style="width:500px;height:100px;" name="ShopDatails" value="" /></td>
+            </tr>
+            <tr>
+                <td><label class="layui-form-label" style="width:100px;">商品价格</label></td>
+                <td>
+                    <input name="ShopPrice" style="width:200px;" class="layui-input" type="text" placeholder="￥" autocomplete="off">
+                </td>
+            </tr>
+            <tr>
+                <td><label class="layui-form-label" style="width:100px;">商品数量</label></td>
+                <td><input type="text" style="width:200px;" class="layui-input" name="ShopSum" placeholder="请输入商品数量" value="" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="发布" class="layui-btn" /></td>
+            </tr>
+        </table>
+    </div>
+</form>
+<script>
+    layui.use(['form', 'layedit'], function () {
+        var $ = layui.jquery
+            , upload = layui.upload;
+</script>

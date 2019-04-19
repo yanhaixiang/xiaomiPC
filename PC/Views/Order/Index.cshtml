@@ -1,75 +1,347 @@
-﻿@model IEnumerable<PC.Models.Order>
-
-@{
+﻿@{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    //Layout = null;
 }
+<link href="~/Content/element-ui.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="~/Scripts/element-ui.js"></script>
+<script src="~/Scripts/axios.js"></script>
+<link href="~/Content/layui.css" rel="stylesheet" />
+<script src="~/Content/layui.js"></script>
+<style>
+    .el-table .warning-row {
+        background: rgba(232, 143, 120, 0.95);
+    }
 
-<h2>Index</h2>
+    .el-table .success-row {
+        background: rgba(127, 231, 224, 0.95);
+    }
+</style>
+<div id="app">
+    <template>
+        <el-tabs v-model="activeName" @@tab-click="handleClick">
+            <el-tab-pane label="全部订单" name="first">
+                <template>
+                    <el-table :data="sites"
+                              style="width: 100%"
+                              height="550"
+                              fit="false"
+                              
+                              :row-class-name="tableRowClassName">
+                        <el-table-column prop="OrderNumber"
+                                         label="订单号"
+                                         fixed="left"
+                                         width="90">
+                        </el-table-column>
+                        <el-table-column prop="Freight"
+                                         label="运费"
+                                         width="70">
+                        </el-table-column>
+                        <el-table-column prop="OrderState"
+                                         label="订单状态"
+                                         width="90">
+                        </el-table-column>
+                        <el-table-column prop="TurePrice"
+                                         label="价格"
+                                         width="90">
+                        </el-table-column>
+                        <el-table-column prop="PaymentTime"
+                                         label="下单时间"
+                                         width="180">
+                        </el-table-column>
+                        <el-table-column prop="ShipmentTime"
+                                         label="付钱时间"
+                                         width="180">
+                        </el-table-column>
+                        <el-table-column prop="HarvestTime"
+                                         label="签收时间"
+                                         width="180">
+                        </el-table-column>
+                        <el-table-column fixed="right"
+                                         label="操作">
+                            <template slot-scope="scope">
+                                <el-button v-if="scope.row.OrderState=='待发货'"
+                                           size="mini"
+                                           @@click="Edit(scope.row.OrderId)">发货</el-button>
+                                <el-button v-else
+                                           size="mini"
+                                           @@click="Get(scope.row.OrderId)">查看详情</el-button>
+                            </template>
+                        </el-table-column>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.OrderNumber)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UserId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Freight)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OrderState)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TurePrice)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PaymentTime)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ShipmentTime)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.HarvestTime)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.OrderNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Freight)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OrderState)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TurePrice)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PaymentTime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ShipmentTime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.HarvestTime)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.OrderId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.OrderId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.OrderId })
-        </td>
-    </tr>
-}
-
-</table>
+                    </el-table>
+                </template>
+            </el-tab-pane>
+            <el-tab-pane label="待发货" name="0">
+                <template>
+                    <el-table :data="sites"
+                              style="width: 100%"
+                              height="550"
+                              empty-text="没有订单要处理"
+                              :row-class-name="tableRowClassName">
+                        <el-table-column prop="OrderNumber"
+                                         label="订单号"
+                                         fixed="left"
+                                         width="90">
+                        </el-table-column>
+                        <el-table-column prop="UserId"
+                                         label="用户ID"
+                                         width="70">
+                        </el-table-column>
+                        <el-table-column prop="Freight"
+                                         label="运费"
+                                         width="70">
+                        </el-table-column>
+                        <el-table-column prop="OrderState"
+                                         label="订单状态"
+                                         width="90">
+                        </el-table-column>
+                        <el-table-column prop="TurePrice"
+                                         label="价格"
+                                         width="90">
+                        </el-table-column>
+                        <el-table-column prop="PaymentTime"
+                                         label="下单时间"
+                                         width="180">
+                        </el-table-column>
+                        <el-table-column prop="ShipmentTime"
+                                         label="付钱时间"
+                                         width="180">
+                        </el-table-column>
+                        <el-table-column prop="HarvestTime"
+                                         label="签收时间"
+                                         width="180">
+                        </el-table-column>
+                        <el-table-column fixed="right"
+                                         label="操作">
+                            <template slot-scope="scope">
+                                <el-button size="mini"
+                                           @@click="Edit(scope.row.OrderId)">发货</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </template>
+            </el-tab-pane>
+            <el-tab-pane label="已发货" name="1">
+                <template>
+                    <el-table :data="sites"
+                              style="width: 100%"
+                              height="550"
+                              :row-class-name="tableRowClassName">
+                        <el-table-column prop="OrderNumber"
+                                         label="订单号"
+                                         fixed="left"
+                                         width="90">
+                        </el-table-column>
+                        <el-table-column prop="UserId"
+                                         label="用户ID"
+                                         width="70">
+                        </el-table-column>
+                        <el-table-column prop="Freight"
+                                         label="运费"
+                                         width="70">
+                        </el-table-column>
+                        <el-table-column prop="OrderState"
+                                         label="订单状态"
+                                         width="90">
+                        </el-table-column>
+                        <el-table-column prop="TurePrice"
+                                         label="价格"
+                                         width="90">
+                        </el-table-column>
+                        <el-table-column prop="PaymentTime"
+                                         label="下单时间"
+                                         width="180">
+                        </el-table-column>
+                        <el-table-column prop="ShipmentTime"
+                                         label="付钱时间"
+                                         width="180">
+                        </el-table-column>
+                        <el-table-column prop="HarvestTime"
+                                         label="签收时间"
+                                         width="180">
+                        </el-table-column>
+                        <el-table-column fixed="right"
+                                         label="操作">
+                            <template slot-scope="scope">
+                                <el-button size="mini"
+                                           @@click="Edit(scope.row.OrderId)">发货</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </template>
+            </el-tab-pane>
+            <el-tab-pane label="已签收" name="2">
+                <template>
+                    <el-table :data="sites"
+                              style="width: 100%"
+                              height="550"
+                              :row-class-name="tableRowClassName">
+                        <el-table-column prop="OrderNumber"
+                                         label="订单号"
+                                         fixed="left"
+                                         width="90">
+                        </el-table-column>
+                        <el-table-column prop="UserId"
+                                         label="用户ID"
+                                         width="70">
+                        </el-table-column>
+                        <el-table-column prop="Freight"
+                                         label="运费"
+                                         width="70">
+                        </el-table-column>
+                        <el-table-column prop="OrderState"
+                                         label="订单状态"
+                                         width="90">
+                        </el-table-column>
+                        <el-table-column prop="TurePrice"
+                                         label="价格"
+                                         width="90">
+                        </el-table-column>
+                        <el-table-column prop="PaymentTime"
+                                         label="下单时间"
+                                         width="180">
+                        </el-table-column>
+                        <el-table-column prop="ShipmentTime"
+                                         label="付钱时间"
+                                         width="180">
+                        </el-table-column>
+                        <el-table-column prop="HarvestTime"
+                                         label="签收时间"
+                                         width="180">
+                        </el-table-column>
+                        <el-table-column fixed="right"
+                                         label="操作">
+                            <template slot-scope="scope">
+                                <el-button size="mini"
+                                           @@click="Edit(scope.row.OrderId)">发货</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </template>
+            </el-tab-pane>
+        </el-tabs>
+    </template>s
+</div>
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            sites: [],
+            activeName: 'first',
+            Order: {}
+        },
+        created: function () {
+            let self = this;
+            axios.get('http://localhost:52721/api/orderApi/GetOrders', {
+                headers: {
+                    'timestamp': '999999999',
+                    'nonce': '234532',
+                    'singture': '999999999234532#9793932i82`/',
+                    'staffid':'#9793932i82`/'
+                }
+            }).then(function (res) {
+                self.sites = res.data;
+                console.log(self.sites);
+                for (var o in self.sites) {
+                    if (self.sites[o].HarvestTime == "" || self.sites[o].HarvestTime == null) {
+                        self.sites[o].HarvestTime = "";
+                        self.sites[o].OrderState = self.sites[o].OrderState == 0 ? "待发货" : "已发货";
+                    } else {
+                        self.sites[o].OrderState = "已签收";
+                    }
+                }
+            })
+        },
+        methods: {
+            //行状态事件
+            tableRowClassName: function ({ row, rowIndex }) {
+                if (row.OrderState =="待发货") {
+                    return 'warning-row';
+                } else if (row.OrderState =="已发货") {
+                    return 'success-row';
+                }
+                return '';
+            },
+            //卡片切换事件
+            handleClick: function (tab) {
+                if (tab.name == "first") {
+                    let self = this;
+                    axios.get('http://localhost:52721/api/orderApi/GetOrders', {
+                        headers: {
+                            'timestamp': '999999999',
+                            'nonce': '234532',
+                            'singture': '999999999234532#9793932i82`/',
+                            'staffid': '#9793932i82`/'
+                        }
+                    }).then(function (res) {
+                        self.sites = res.data;
+                        console.log(self.sites);
+                        for (var o in self.sites) {
+                            if (self.sites[o].HarvestTime == "" || self.sites[o].HarvestTime == null) {
+                                self.sites[o].HarvestTime = "";
+                                self.sites[o].OrderState = self.sites[o].OrderState == 0 ? "待发货" : "已发货";
+                            } else {
+                                self.sites[o].OrderState = "已签收";
+                            }
+                        }
+                    })
+                } else {
+                    var self = this;
+                    axios.get('http://localhost:52721/api/orderApi/GetOrders?TJ=' + tab.name, {
+                        headers: {
+                            'timestamp': '999999999',
+                            'nonce': '234532',
+                            'singture': '999999999234532#9793932i82`/TJ'+tab.name ,
+                            'staffid': '#9793932i82`/'
+                        }
+                    }).then(function (res) {
+                        self.sites = res.data;
+                        console.log(self.sites);
+                        for (var o in self.sites) {
+                            if (self.sites[o].HarvestTime == "" || self.sites[o].HarvestTime == null) {
+                                self.sites[o].HarvestTime = "";
+                                self.sites[o].OrderState = self.sites[o].OrderState == 0 ? "待发货" : "已发货";
+                            } else {
+                                self.sites[o].OrderState = "已签收";
+                            }
+                        }
+                    })
+                }
+            },
+            //点击发货事件
+            Edit: function (id) {
+                axios.get('http://localhost:52868/Order/Upt?id=' + id).then(function (res) {
+                    let self = this;
+                    axios.get('http://localhost:52721/api/orderApi/GetOrders', {
+                        headers: {
+                            'timestamp': '999999999',
+                            'nonce': '234532',
+                            'singture': '999999999234532#9793932i82`/',
+                            'staffid': '#9793932i82`/'
+                        }
+                    }).then(function (res) {
+                        self.sites = res.data;
+                        console.log(self.sites);
+                        for (var o in self.sites) {
+                            if (self.sites[o].HarvestTime == "" || self.sites[o].HarvestTime == null) {
+                                self.sites[o].HarvestTime = "";
+                                self.sites[o].OrderState = self.sites[o].OrderState == 0 ? "待发货" : "已发货";
+                            } else {
+                                self.sites[o].OrderState = "已签收";
+                            }
+                        }
+                    })
+                })
+            },
+            Get: function (id) {
+                var self = this;
+                axios.get('http://localhost:52868/Order/Edit?id=' + id).then(function (res) {
+                    self.Order = res.data;
+                    console.log(self.Order);
+                })
+            }
+        }
+    })
+</script>

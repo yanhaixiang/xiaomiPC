@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using Newtonsoft.Json;
 using PC.Models;
 
@@ -37,16 +38,17 @@ namespace PC.Controllers
         /// <param name="UserPwd">密码</param>
         /// <returns></returns>
         [HttpPost]
-        public User Login(string UserName,string UserPwd)
+        public void Login(string UserName,string UserPwd)
         {
-            User user = GetUsers().Where(m => m.UserName.Equals(UserName) && m.UserPwd.Equals(UserPwd)).SingleOrDefault();
+            string MD = FormsAuthentication.HashPasswordForStoringInConfigFile(UserPwd, "MD5").ToLower();
+            User user = GetUsers().Where(m => m.UserName.Equals(UserName) && m.UserPwd.Equals(MD)).SingleOrDefault();
             Session["UserId"] = user.UserId;
             Session["UserIntegral"] = user.UserIntegral;
             Session["UserMember"] = user.UserMember;
             Session["UserName"] = user.UserName;
             Session["UserPhone"] = user.UserPhone;
             Session["UserPwd"] = user.UserPwd;
-            return user;
+            Response.Write("<script>location.href='/Shop/Index';</script>");
         }
 
         /// <summary>
@@ -64,6 +66,7 @@ namespace PC.Controllers
         [HttpPost]
         public string Edit(User user)
         {
+            user.UserPwd = FormsAuthentication.HashPasswordForStoringInConfigFile(user.UserPwd, "MD5").ToLower();
             string str = JsonConvert.SerializeObject(user);
             //使用HttpClientHelper获取所有数据
             string jsonStr = HttpClientHelper.Send("put", "api/UserAPI/Upt",str);
@@ -85,6 +88,9 @@ namespace PC.Controllers
         [HttpPost]
         public string Create(User user)
         {
+            user.UserIntegral = 0;
+            user.UserMember = 0;
+            user.UserPwd = FormsAuthentication.HashPasswordForStoringInConfigFile(user.UserPwd, "MD5").ToLower();
             string str = JsonConvert.SerializeObject(user);
             //使用HttpClientHelper获取所有数据
             string jsonStr = HttpClientHelper.Send("post", "api/UserAPI/Create", str);

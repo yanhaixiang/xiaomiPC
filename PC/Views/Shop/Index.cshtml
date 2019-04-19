@@ -1,75 +1,96 @@
-﻿@model IEnumerable<PC.Models.Shop>
+﻿@using PC.Controllers
+@model IEnumerable<PC.Models.Shop>
 
 @{
+    Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
-
+<script src="~/Content/layui.js"></script>
+<link href="~/Content/layui/css/layui.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-3.3.1.js"></script>
 <p>
-    @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ShopType)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ShopName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ShopTitle)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ShopPicture)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ShopDatails)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ShopPirce)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ShopSum)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ShopState)
-        </th>
-        <th></th>
-    </tr>
+<div>
+    @*<div class="layui-carousel" id="test1" lay-filter="test1">
+        <div carousel-item="" style="width:500px;height:500px;">*@
+    @foreach (var item in Model)
+    {
+        <div style="margin-left:5%;float:left;">
+            <table class="layui-table" style="width:300px;">
+                <tr>
+                    <td colspan="2"><img src="@item.ShopPicture" style="margin-left:30%" alt="Alternate Text" /></td>
+                </tr>
+                <tr>
+                    <td>商品名称</td>
+                    <td>@item.ShopName</td>
+                </tr>
+                <tr>
+                    <td>商品标题</td>
+                    <td>@item.ShopTitle</td>
+                </tr>
+                <tr>
+                    <td>商品详情</td>
+                    <td>@item.ShopDatails</td>
+                </tr>
+                <tr>
+                    <td>商品价格</td>
+                    <td>@item.ShopPrice</td>
+                </tr>
+                <tr>
+                    <td>商品状态</td>
+                    <td>
+                        @{ State state = (State)item.ShopState;}
+                        @if (State.上架 == state)
+                        {
+                            <p>正在销售中</p>
+                        }
+                        else if (State.下架 == state)
+                        {
+                            <p style="color:red;">已下架</p>
+                        }
+                        else
+                        {
+                            <p style="color:blue">商品已售完</p>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>商品数量</td>
+                    <td>@item.ShopSum</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="button" name="name" value="查看选购人员" onclick="location.href='Order/Index?id='+@item.ShopId" /></td>
+                </tr>
+            </table>
+        </div>
+    }
+    <p hidden>@ViewBag.index @ViewBag.count</p>
+    <table style="width:500px;height:50px;float:left;position:absolute;margin-top:550px;margin-left:220px;">
+        <tr>
+            <td><input type="button" style="margin-left:30px;" class="layui-btn" name="name" value="首页" onclick="location.href='/Shop/Index/?pageindex=1'" /></td>
+            <td><input id="btnUp" type="button" class="layui-btn" name="name" value="上一页" onclick="location.href='/Shop/Index/?pageindex='+@(ViewBag.index-1)" /></td>
+            <td><input id="btnDown" type="button" class="layui-btn" name="name" value="下一页" onclick="location.href='/Shop/Index/?pageindex='+@(ViewBag.index+1)" /></td>
+            <td><input type="button" class="layui-btn" name="name" value="尾页" onclick="location.href='/Shop/Index/?pageindex=@ViewBag.count'" /></td>
+        </tr>
+    </table>
+</div>
+@*</div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ShopType)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ShopName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ShopTitle)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ShopPicture)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ShopDatails)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ShopPirce)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ShopSum)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ShopState)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ShopId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ShopId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ShopId })
-        </td>
-    </tr>
-}
-
-</table>
+    </div>*@
+<script>
+    layui.use([ 'form'], function () {
+        var  form = layui.form;
+    });
+    if (@ViewBag.index<= 1) {
+        $("#btnUp").mousedown(function () {
+            this.onclick = false;
+        })
+    }
+    if (@ViewBag.count==@ViewBag.index) {
+        $("#btnDown").mousedown(function(){
+            this.onclick = false;
+        })
+    }
+</script>

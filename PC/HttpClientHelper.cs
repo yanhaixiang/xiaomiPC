@@ -9,6 +9,7 @@ namespace PC
 {
     public class HttpClientHelper
     {
+        static string staffid = "#@9793932i82`/";
         /// <summary>
         /// 发送httpclient请求
         /// </summary>
