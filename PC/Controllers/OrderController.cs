@@ -81,14 +81,14 @@ namespace PC.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public string Upt(int id)
+        public void Upt(int id)
         {
             //先进行反填这一步
             var s = GetOrders().Where(m => m.OrderId == id).SingleOrDefault();
             //修改原有信息
             s.OrderState = 1;
             //在整个方法进行修改
-            return Edit(s);
+            Edit(s);
         }
 
         [HttpGet]
