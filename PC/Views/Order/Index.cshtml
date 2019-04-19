@@ -234,19 +234,18 @@
         },
         created: function () {
             let self = this;
-            let timestamp = Date.now-
             axios.get('http://localhost:52721/api/orderApi/GetOrders', {
                 headers: {
                     'timestamp': '999999999',
                     'nonce': '234532',
-                    'singture': '',
+                    'singture': '999999999234532#9793932i82`/',
                     'staffid':'#9793932i82`/'
                 }
             }).then(function (res) {
                 self.sites = res.data;
                 console.log(self.sites);
                 for (var o in self.sites) {
-                    if (self.sites[o].HarvestTime == "0001-01-01T00:00:00") {
+                    if (self.sites[o].HarvestTime == "") {
                         self.sites[o].HarvestTime = "";
                         self.sites[o].OrderState = self.sites[o].OrderState == 0 ? "待发货" : "已发货";
                     } else {
@@ -268,12 +267,19 @@
             //卡片切换事件
             handleClick: function (tab) {
                 if (tab.name == "first") {
-                    var self = this;
-                    axios.get('http://localhost:52721/api/orderApi/GetOrders').then(function (res) {
+                    let self = this;
+                    axios.get('http://localhost:52721/api/orderApi/GetOrders', {
+                        headers: {
+                            'timestamp': '999999999',
+                            'nonce': '234532',
+                            'singture': '999999999234532#9793932i82`/',
+                            'staffid': '#9793932i82`/'
+                        }
+                    }).then(function (res) {
                         self.sites = res.data;
                         console.log(self.sites);
                         for (var o in self.sites) {
-                            if (self.sites[o].HarvestTime == "0001-01-01T00:00:00") {
+                            if (self.sites[o].HarvestTime == "") {
                                 self.sites[o].HarvestTime = "";
                                 self.sites[o].OrderState = self.sites[o].OrderState == 0 ? "待发货" : "已发货";
                             } else {
@@ -283,11 +289,18 @@
                     })
                 } else {
                     var self = this;
-                    axios.get('http://localhost:52721/api/orderApi/GetOrders?TJ=' + tab.name).then(function (res) {
+                    axios.get('http://localhost:52721/api/orderApi/GetOrders?TJ=' + tab.name, {
+                        headers: {
+                            'timestamp': '999999999',
+                            'nonce': '234532',
+                            'singture': '999999999234532#9793932i82`/TJ'+tab.name ,
+                            'staffid': '#9793932i82`/'
+                        }
+                    }).then(function (res) {
                         self.sites = res.data;
                         console.log(self.sites);
                         for (var o in self.sites) {
-                            if (self.sites[o].HarvestTime == "0001-01-01T00:00:00") {
+                            if (self.sites[o].HarvestTime == "") {
                                 self.sites[o].HarvestTime = "";
                                 self.sites[o].OrderState = self.sites[o].OrderState == 0 ? "待发货" : "已发货";
                             } else {
@@ -299,14 +312,20 @@
             },
             //点击发货事件
             Edit: function (id) {
-                let self = this;
                 axios.get('http://localhost:52868/Order/Upt?id=' + id).then(function (res) {
-                    console.log(res.data);
-                    axios.get('http://localhost:52721/api/orderApi/GetOrders').then(function (res) {
+                    let self = this;
+                    axios.get('http://localhost:52721/api/orderApi/GetOrders', {
+                        headers: {
+                            'timestamp': '999999999',
+                            'nonce': '234532',
+                            'singture': '999999999234532#9793932i82`/',
+                            'staffid': '#9793932i82`/'
+                        }
+                    }).then(function (res) {
                         self.sites = res.data;
                         console.log(self.sites);
                         for (var o in self.sites) {
-                            if (self.sites[o].HarvestTime == "0001-01-01T00:00:00") {
+                            if (self.sites[o].HarvestTime == "") {
                                 self.sites[o].HarvestTime = "";
                                 self.sites[o].OrderState = self.sites[o].OrderState == 0 ? "待发货" : "已发货";
                             } else {

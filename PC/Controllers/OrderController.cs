@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
@@ -43,9 +44,26 @@ namespace PC.Controllers
         [HttpPost]
         public string Edit(Order order)
         {
+            var nonce = DataTransfer.GetNonce();
+            var timestamp = DataTransfer.GetTimeStamp();
+            var staffid = "#9793932i82`/";
             string str = JsonConvert.SerializeObject(order);
+            var singture = timestamp + nonce + staffid;
+            Type type = typeof(Order);
+            PropertyInfo[] pros = type.GetProperties();
+            SortedDictionary<string,string> pairs = new SortedDictionary<string, string>();
+            foreach (var item in pros)
+            {
+                pairs.Add(item.Name.ToString(), item.GetValue(order, null).ToString());
+            }
+            foreach (var item in pairs.OrderBy(o => o.Key))
+            {
+                
+                singture += item.Key + item.Value.ToString();
+            }
             //使用HttpClientHelper获取所有数据
-            string jsonStr = HttpClientHelper.Send("put", "api/OrderAPI/Upt", str);
+            string jsonStr = HttpClientHelper2.SendRequest("api/OrderAPI/Upt", "put", timestamp, nonce.ToString(),singture , str);
+            //string jsonStr = HttpClientHelper.Send("put", "api/OrderAPI/Upt", str);
             if (jsonStr != "未知原因，失败")
             {
                 return "成功";
@@ -98,12 +116,19 @@ namespace PC.Controllers
             var nonce = DataTransfer.GetNonce();
             var timestamp = DataTransfer.GetTimeStamp();
             var staffid = "#9793932i82`/";
-
             //使用HttpClientHelper获取所有数据
-            string jsonStr = HttpClientHelper2.SendRequest("api/OrderAPI/GetOrders", "get", timestamp, nonce.ToString(), staffid, "");
+            string jsonStr = HttpClientHelper2.SendRequest("api/OrderAPI/GetOrders", "get", timestamp, nonce.ToString(), timestamp + nonce + staffid);
             //string jsonStr = HttpClientHelper.Send("get", "api/OrderAPI/GetOrders", null);
             //将json数据转化为list集合 并返回
-            return JsonConvert.DeserializeObject<List<Order>>(jsonStr); ;
+            if (jsonStr != "未知原因，失败")
+            {
+                return JsonConvert.DeserializeObject<List<Order>>(jsonStr); ;
+            }
+            else
+            {
+                return null;
+            }
+            
         }
 
 

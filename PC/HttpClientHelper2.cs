@@ -31,7 +31,7 @@ namespace PC
             {
                 client.DefaultRequestHeaders.Add("timestamp", timestamp);
                 client.DefaultRequestHeaders.Add("nonce", nonce);
-                client.DefaultRequestHeaders.Add("signature", signature);
+                client.DefaultRequestHeaders.Add("singture", signature);
             }
             #endregion
 
